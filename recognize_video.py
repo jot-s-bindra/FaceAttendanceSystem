@@ -8,26 +8,21 @@ import numpy as np
 from imutils.video import FPS
 from imutils.video import VideoStream
 
-# load serialized face detector
 print("Loading Face Detector...")
 protoPath = "face_detection_model/deploy.prototxt"
 modelPath = "face_detection_model/res10_300x300_ssd_iter_140000.caffemodel"
 detector = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
 
-# load serialized face embedding model
 print("Loading Face Recognizer...")
 embedder = cv2.dnn.readNetFromTorch("openface_nn4.small2.v1.t7")
 
-# load the actual face recognition model along with the label encoder
 recognizer = pickle.loads(open("output/recognizer.pickle", "rb").read())
 le = pickle.loads(open("output/le.pickle", "rb").read())
 
-# initialize the video stream, then allow the camera sensor to warm up
 print("Starting Video Stream...")
 vs = VideoStream(src=0).start()
 time.sleep(2.0)
 
-# start the FPS throughput estimator
 fps = FPS().start()
 
 # loop over frames from the video file stream
